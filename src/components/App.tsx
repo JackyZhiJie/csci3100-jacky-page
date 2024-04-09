@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import AddShoppingCart from "@material-ui/icons/AddShoppingCart";
 import Badge from "@material-ui/core/Badge";
 import Item from "./Item/item";
-import { Wrapper, StyledButton } from "../App.styles";
+import { Wrapper, StyledButton } from "./App.styles";
 //For those drawers
 import Cart from "./Cart/Cart";
 import PurchaseHistory from "./PurchaseHistory/PurchaseHistory";
@@ -26,6 +26,9 @@ import TwitterIcon from "@material-ui/icons/Twitter";
 import { makeStyles } from "@material-ui/core/styles";
 //logo
 import logo from "../img/logo.png";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 //Types
 export type CartItemType = {
@@ -201,72 +204,53 @@ const App = () => {
   return (
     <Wrapper>
       {/* This the header section */}
-      <div className={classes.headerSection}>
-        <div style={{ display: "flex", justifyContent: "start", alignItems: "center" }}>
-          <img src={logo} alt="Logo" style={{ width: "100px", height: "100px" }} />
-          <TextField
-            id="input-with-icon-textfield"
-            label="Search"
-            variant="outlined"
-            style={{ marginBottom: "20px" }}
-            className={classes.textField}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Select value={category} onChange={handleChange} displayEmpty inputProps={{ "aria-label": "Without label" }} className={classes.select}>
-                    <MenuItem value="" disabled className={classes.menuItem}>
-                      All categories
-                    </MenuItem>
-                    <MenuItem value="T-shirts" className={classes.menuItem}>
-                      T-shirts
-                    </MenuItem>
-                    <MenuItem value="Bracelets" className={classes.menuItem}>
-                      Bracelets
-                    </MenuItem>
-                    <MenuItem value="Gadgets" className={classes.menuItem}>
-                      Gadgets
-                    </MenuItem>
-                  </Select>
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-          <div style={{ marginLeft: "auto" }}>
-            <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)} classes={{ paper: classes.drawerPaper }}>
-              <Cart cartItems={cartItems} addToCart={handleAddToCart} removeFromCart={(id: string) => handleRemoveFromCart(id)} />
-            </Drawer>
-            <StyledButton onClick={() => setCartOpen(true)}>
-              <Badge badgeContent={getTotalItems(cartItems)} color="error">
-                <AddShoppingCart />
-              </Badge>
-            </StyledButton>
-            <IconButton onClick={handleOpenDialog}>
-              <MessageIcon />
-            </IconButton>
-            <Dialog open={openDialog} onClose={handleCloseDialog} PaperProps={{ className: classes.dialog }}>
-              <div>
-                <h1>Dialog Box</h1>
-                <p>This is a dialog box</p>
-                <button onClick={handleCloseDialog}>Close</button>
-              </div>
-            </Dialog>
-            <Drawer anchor="right" open={historyOpen} onClose={() => setHistoryOpen(false)} classes={{ paper: classes.drawerPaper }}>
-              <PurchaseHistory />
-            </Drawer>
-            <IconButton onClick={() => setHistoryOpen(true)}>
-              <HistoryIcon />
-            </IconButton>
-            {/* Reward Point */}
-            <Drawer anchor="right" open={rewardPoint} onClose={() => setRewardPoint(false)} classes={{ paper: classes.drawerPaper }}>
-              <RewardPoints />
-            </Drawer>
-            <IconButton onClick={() => setRewardPoint(true)}>
-              <LoyaltyIcon />
-            </IconButton>
-          </div>
+      {/* Boostrap */}
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <img src={logo} alt="Logo" style={{ width: "100px", height: "100px" }} />
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav d-flex justify-content-between w-100">
+            <li className="nav-item active">
+              <a className="nav-link" href="#">
+                Home <span className="sr-only"></span>
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">
+                T-shirt
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="">
+                Bracelets
+              </a>
+            </li>
+            <li>
+              <a className="nav-link" href="">
+                Gadgets
+              </a>
+            </li>
+            <li className="nav-item">
+              <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)} classes={{ paper: classes.drawerPaper }}>
+                <Cart cartItems={cartItems} addToCart={handleAddToCart} removeFromCart={(id: string) => handleRemoveFromCart(id)} />
+              </Drawer>
+              <StyledButton onClick={() => setCartOpen(true)}>
+                <Badge badgeContent={getTotalItems(cartItems)} color="error">
+                  <AddShoppingCart />
+                </Badge>
+              </StyledButton>
+            </li>
+            <form className="form-inline my-2 my-lg-0">
+              <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+            </form>
+            <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
+              Search
+            </button>
+          </ul>
         </div>
-      </div>
+      </nav>
 
       <Grid container spacing={2}>
         {data?.map((item) => (
@@ -282,6 +266,7 @@ const App = () => {
           </Grid>
         ))}
       </Grid>
+
       <div className={classes.iconButtonContainer}>
         <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
           <IconButton>
